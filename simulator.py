@@ -33,6 +33,15 @@ def process_baggage(env, baggage, station, proc_time_range):
 
 
 def baggage_arrival(env, station, arrival_interval, proc_time_range):
+    """Baggage arival function:
+    inputs:
+    1. env: SimPy simulation environment
+    2. Station: The resource (i.e, check-in conveyor) where the baggage is processed.
+    3. arrival_interval: A tuple representing the the time between differnt baggage arrivals
+    4. proc_time_range: A tuple representing the time it takes to process each baggage.
+    Outputs:
+    1. A generator that yields the time until the next baggage arrives.
+    """
     id = 0  # Initialize baggage id counter
     while True:
         baggage = Baggage(id)
@@ -43,12 +52,23 @@ def baggage_arrival(env, station, arrival_interval, proc_time_range):
 
 
 class Station(simpy.Resource):
-    def __init__(self, env, name, capacity):
-        super().__init__(env, capacity=capacity)
-        self.name = name
+    """Class to represent a station (e.g., The airport check-in)"""
+
+    def __init__(
+        self, env, name, capacity
+    ):  # initialize the sation object with a name and a capacity
+        super().__init__(
+            env, capacity=capacity
+        )  # Call the parent class constuctor evv and pass the capacity
+        self.name = name  # Assign the name of the station to the Station object
 
 
 def run_simulation():
+    """Run the simulation function:
+    Inputs:
+    1. None
+    Outputs:
+    prints the tome and baggage id after each processing is complete."""
     env = simpy.Environment()
     # Create a station (Check-In Conveyor) with capacity 3
     check_in = Station(env, "Check-In Conveyor", capacity=3)
