@@ -52,7 +52,7 @@ def baggage_arrival(env, station, arrival_interval, proc_time_range):
 
 
 class Station(simpy.Resource):
-    """Class to represent a station (e.g., The airport check-in)"""
+    """Station Class i.e, check-in conveyor:"""
 
     def __init__(
         self, env, name, capacity
@@ -69,16 +69,14 @@ def run_simulation():
     1. None
     Outputs:
     prints the tome and baggage id after each processing is complete."""
-    env = simpy.Environment()
-    # Create a station (Check-In Conveyor) with capacity 3
-    check_in = Station(env, "Check-In Conveyor", capacity=3)
-    # Define arrival and processing time ranges
+    env = simpy.Environment()  # Variable to hold the simulation environment
+    check_in = Station(env, "Check-In", 3)
     arrival_interval = (0.5, 1.5)  # Baggage arrives every 0.5 to 1.5 time units
     processing_time = (1, 3)  # Processing takes 1 to 3 time units
     # Start the baggage arrival process
     env.process(baggage_arrival(env, check_in, arrival_interval, processing_time))
     # Run the simulation for 20 time units
-    env.run(until=20)
+    env.run(until=100)
 
     # After simulation, plot the processing events if any data was collected
     if processed_data:
